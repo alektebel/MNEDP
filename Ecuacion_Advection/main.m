@@ -1,7 +1,8 @@
 
 T = [0.1, 0.5, 1];
 dx=[0.02, 0.01];
-exact  = @(x, t) x+t./(1+x.^2);
+a= @(x, t) (1+x^2)/(1+2*x*t+2*x^2+x^4);
+exact  = @(x, t) x-t./(1+x.^2);
 upwind_static = figure('Name','Método upwind');
 Lax_wendrof_static = figure('Name','Método Lax-Wendroff');
 figure(upwind_static);
@@ -12,7 +13,7 @@ for i=1:3
         [x, U] = upwind(dx(j), T(i));
         plot(x, U, 'bX');
         hold on;
-        plot(x, meseta(exact(0.2, T(i)), exact(0.4, T(i)), x)); 
+        plot(x, meseta(0.2,0.4, exact(x, T(i)))); 
         title('T = '+string(T(i))+'; dx = '+string(dx(j)));
         ylim([0, 1.3]); 
         xlim([0 1.5]);
@@ -27,7 +28,7 @@ for i=1:3
         [x, U] = laxwendroff(dx(j), T(i));
         plot(x, U, 'bX');
         hold on;
-        plot(x, meseta(exact(0.2, T(i)), exact(0.4, T(i)), x)); 
+        plot(x, meseta(0.2,0.4, exact(x, T(i)))); 
         title('T = '+string(T(i))+'; dx = '+string(dx(j)));
         ylim([0, 1.3]); 
         xlim([0 1.5]);
