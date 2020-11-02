@@ -3,24 +3,22 @@ function [x, U] = upwind(dx, T)
     xmin = 0;
     xmax = 2;
     dt = dx;
-    t=0;
     tmax = T;
-    a= @(x, t) (1+x^2)/(1+2*x*t+2*x^2+x^4);
+    a= @(x, t) (1+x.^2)/(1+2*x.*t+2.*x.^2+x.^4);
+    t_c=0;
     N = (xmax - xmin)/dx;
     nsteps = tmax/dt;
-    x = xmin-dx:dx:xmax+dx;
+    x = xmin:dx:xmax;
+    
     U0 = meseta(0.2, 0.4, x);
     U = U0;
+    J= length(x);
     UP = U0;
     for n = 1:nsteps
-        U(1)=U(3);
-        U(N+3)=U(N+1);
-        for i=2:N+2
-            UP(i) = U(i) - a(x(i), t)*dt/dx*(U(i)-U(i-1));
+        for i=2:J
+            UP(i) = U(i) - a(x(i), t_c)*dt/dx*(U(i)-U(i-1));
         end
-        t=t+dt;
-        U=UP;
+        U = UP;
+        t_c = t_c+dt
     end   
-    
 end
-

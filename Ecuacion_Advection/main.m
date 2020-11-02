@@ -30,7 +30,7 @@ for i=1:3
         hold on;
         plot(x, meseta(0.2,0.4, exact(x, T(i)))); 
         title('T = '+string(T(i))+'; dx = '+string(dx(j)));
-        ylim([0, 1.3]); 
+        ylim([-0.5, 1.3]); 
         xlim([0 1.5]);
         hold off;
     end
