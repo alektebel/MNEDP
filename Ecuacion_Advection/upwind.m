@@ -16,9 +16,14 @@ function [x, U] = upwind(dx, T)
     UP = U0;
     for n = 1:nsteps
         for i=2:J
-            UP(i) = U(i) - a(x(i), t_c)*dt/dx*(U(i)-U(i-1));
+            if a(x(i), t_c) > 0
+                UP(i) = U(i) - a(x(i), t_c)*dt/dx*(U(i)-U(i-1));
+            end
+            if a(x(i), t_c) < 0
+                UP(i) = U(i) - a(x(i), t_c)*dt/dx*(U(i+1)-U(i));
+            end
         end
         U = UP;
-        t_c = t_c+dt
+        t_c = t_c+dt;
     end   
 end
